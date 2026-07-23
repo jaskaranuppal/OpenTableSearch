@@ -112,14 +112,6 @@ The Admin API key is **not needed** at runtime (only for indexing). Store it sec
 2. Start: `pnpm start`
 3. Set env vars in your platform's settings
 
-## Troubleshooting
-
-| Issue | Cause | Fix |
-|-------|-------|-----|
-| "Index restaurants does not exist" | Algolia not indexed, or credentials missing/wrong | Ensure `ALGOLIA_ADMIN_API_KEY` is set, then run `node scripts/index-to-algolia.mjs` |
-| "0 restaurants" in live mode | Index exists but is empty | Re-run the indexing script; check for errors |
-| No results in demo mode | Demo client didn't load data | Ensure `data/restaurants.json` exists; check console for import errors |
-| Typos not forgiving | Typo tolerance disabled | Index settings were reset; re-run indexing script |
 
 ## File Structure
 
@@ -170,6 +162,5 @@ The Admin API key is **not needed** at runtime (only for indexing). Store it sec
    - Use filters: select a cuisine, adjust price range, filter by payment type
    - Pick a city to geo-rank results
    - Click "Reserve" to open OpenTable (if `reserve_url` is populated)
-4. Prepare for the customer call: review APPROACH.md and COMMUNICATION_ANSWERS.md
-5. Deploy to Vercel when ready
+4. Deploy to Vercel when ready
 

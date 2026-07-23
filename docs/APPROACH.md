@@ -7,7 +7,7 @@ OpenTable's current search/discovery (Elasticsearch-based) is dated and weak on 
 2. **Discovery/exploration**: Weak faceting, no mood/context filtering, no modern UX → low engagement
 
 This prototype demonstrates how **Algolia** can solve both via:
-- **Instant, forgiving search** with typo tolerance, prefix matching, and semantic ranking
+- **Instant search** with typo tolerance, prefix matching, and semantic ranking
 - **Guided discovery** with faceted browse (cuisine, price, payment, dining style, quality tier), geo-aware ranking, and curated collections
 
 ## Architecture & Tech Stack
@@ -55,9 +55,7 @@ This prototype demonstrates how **Algolia** can solve both via:
   - This ordering prioritizes minimal-typo matches, then geographic relevance, then word frequency
 - **Testing queries**:
   - "sushi" → instant results (no typo)
-  - "sushi sf" → results + location weight
   - "susyi" → forgiving typo match
-  - "ital pasta" → partial name + cuisine match
   - "steakhouse midtown" → cuisine + neighborhood
 
 ### Discovery/Exploration (Guided Refinement)
@@ -76,11 +74,6 @@ This prototype demonstrates how **Algolia** can solve both via:
   - If user picks a city, results ranked by distance from city center (lat/lng from `lib/cities.ts`)
   - If geolocation available (future), use device location
   - Fallback: all results, no geo weight
-- **Collections** (editorial, pre-configured):
-  - "Cozy Italian" → cuisine:Italian query
-  - "Steakhouse Vibes" → cuisine:American
-  - "Sushi Night" → cuisine:Asian
-  - Each is a shortcut to a curated browse
 
 ### Ranking Strategy
 
@@ -172,8 +165,6 @@ This ensures high-quality, well-reviewed restaurants float to top when query is 
 - ✅ Exact match: "The French Laundry" → first result
 - ✅ Typos: "Fraunch Laundry" → forgiving match
 - ✅ Partial: "Fraunch" → matches restaurants with "French" in name/cuisine
-- ✅ Location: "Fraunch Mendocino" → geo-ranked by Mendocino area center
-
 **Discovery flow**:
 - ✅ Facet refinement: select "Sushi" → results change
 - ✅ Multi-facet: "Sushi" + "Fine Dining" + "$$$" → narrowed results
@@ -204,29 +195,5 @@ This ensures high-quality, well-reviewed restaurants float to top when query is 
 | Slow search lag | Algolia's sub-200ms response times | Instant feedback, lower bounce |
 | Geo-irrelevance | Custom ranking by distance + location filter | Smarter result ordering, more relevant |
 
-## Future Improvements
-
-1. **Personalization**: "restaurants you've saved," "similar to ones you've booked"
-2. **A/B testing**: swap ranking strategies and measure booking lift
-3. **Analytics**: track searches, clicks, reserves → iterate relevance
-4. **Voice search**: support "find sushi near me"
-5. **Mobile UX**: optimize for on-phone reservations (smaller screens, faster taps)
-6. **Multi-language**: support Spanish, French, etc. (Algolia's i18n features)
-7. **Real reserve integration**: embed OpenTable's widget, not just link out
-8. **User accounts**: save searches, favorites, booking history
-
 ---
-
-## Implementation Timeline & Effort Estimate
-
-| Phase | Effort | Timeline |
-|-------|--------|----------|
-| **Data pipeline** | 2-3 hours | Done |
-| **Algolia indexing + tuning** | 3-4 hours | Done |
-| **UI components** | 6-8 hours | Done |
-| **Testing & refinement** | 2-3 hours | Remaining |
-| **Docs & handoff** | 1-2 hours | In progress |
-| **Total** | ~15-20 hours | ~2 days |
-
-This approach is designed to be **defensible in a technical debrief** and **compelling in a customer presentation**. The prototype prioritizes clarity over completeness—it shows *how* Algolia solves the core problems, not *everything* Algolia can do.
 
